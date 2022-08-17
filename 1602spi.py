@@ -7,6 +7,13 @@ import utime
 
 
 class LCD:
+    #On LCD Module Pins RS= 4, CSB= 12, SCL= 13, SDA= 14
+    #
+    #WARNINGS!
+    #Ground Pin 16 on LCM for Backlight. DO NOT APPLY VOLTAGE
+    #Pin 1= GND, Pin 2= Vss/5v. DO NOT SWAP
+    #Pin 15= Negative voltage Output. DO NOT APPLY EXTERNAL VOLTAGE
+    #
     def __init__(self, RS, CSB, SCL, SDA):
         self.RS=Pin(RS, Pin.OUT)
         self.CSB=Pin(CSB, Pin.OUT)
@@ -97,4 +104,7 @@ class LCD:
     def noDisplay(self):
         self.writeCommand(0b00001000)
 
-    
+    def setCursor(self, row, col):
+        #Row and Colomn number both start from 0
+        #No error will be thrown for out-of-bounds position
+        self.writeCommand(128+(64*row)+col)
