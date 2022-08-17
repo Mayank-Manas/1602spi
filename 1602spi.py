@@ -1,4 +1,4 @@
-#Micro-Python Driver for Winstar LCD Module WH1602B1-SLL-JWV
+#Micro-Python SPI Driver for Winstar LCD Module WH1602B1-SLL-JWV
 #Refer Datasheet for more details.
 #Written By Mayank Manas, Univerity of Westminster
 
@@ -13,7 +13,7 @@ class LCD:
         self.SCL=Pin(SCL, Pin.OUT)
         self.SDA=Pin(SDA, Pin.OUT)
         self.delay_us=20
-        self.cursor,self.blink= False,False
+        self.cursorOn,self.blink= False,False
     
     def initialise(self):
         utime.sleep_ms(20)              #Initial Delay
@@ -75,7 +75,7 @@ class LCD:
         utime.sleep_ms(1)
     
     def cursor(self,blink=True):
-        self.cursor=True
+        self.cursorOn=True
         if blink:
             self.writeCommand(0b00001111)
             self.blink=True
@@ -87,7 +87,7 @@ class LCD:
         self.writeCommand(0b00001100)
 
     def display(self):
-        if not self.cursor:
+        if not self.cursorOn:
             self.writeCommand(0b00001100)
         elif self.blink:
             self.writeCommand(0b00001111)
